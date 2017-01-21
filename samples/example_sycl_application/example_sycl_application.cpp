@@ -35,6 +35,8 @@ using namespace cl::sycl;
 extern const size_t N = 100;
 extern const size_t M = 150;
 
+void matrix_add(queue & q, buffer<float, 2> &, buffer<float, 2> &, buffer<float, 2> &);
+
 /* This sample creates three device-only arrays, then initialises them
  * on the device. After that, it adds two of them together, storing the
  * result in the third buffer. It then verifies the result of the kernel
@@ -77,13 +79,7 @@ int main() {
      * previous kernels. If the data were initialised on a different device,
      * or on the host, the SYCL runtime would ensure that the data were
      * copied between contexts etc. properly. */
-    myQueue.submit([&](handler& cgh) {
-      auto A = a.get_access<access::mode::read>(cgh);
-      auto B = b.get_access<access::mode::read>(cgh);
-      auto C = c.get_access<access::mode::write>(cgh);
-      cgh.parallel_for<class matrix_add>(
-          range<2>{N, M}, [=](id<2> index) { C[index] = A[index] + B[index]; });
-    });
+    matrix_add(myQueue, a, b, c);
 
     /* A host accessor will copy data from the device and, under most
      * circumstances, allocate space for it for the user (it will not

@@ -7,9 +7,8 @@ using namespace cl::sycl;
 extern const size_t M;
 extern const size_t N;
 
-void temp(queue & myQueue,buffer<float, 2> & a,buffer<float, 2> & b, buffer<float, 2> & c)
+void matrix_add(queue & myQueue,buffer<float, 2> & a,buffer<float, 2> & b, buffer<float, 2> & c)
 {
-
     myQueue.submit([&](handler& cgh) {
       auto A = a.get_access<access::mode::read>(cgh);
       auto B = b.get_access<access::mode::read>(cgh);
