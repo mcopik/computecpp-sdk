@@ -32,8 +32,8 @@
 
 using namespace cl::sycl;
 
-const size_t N = 100;
-const size_t M = 150;
+extern const size_t N = 100;
+extern const size_t M = 150;
 
 /* This sample creates three device-only arrays, then initialises them
  * on the device. After that, it adds two of them together, storing the
